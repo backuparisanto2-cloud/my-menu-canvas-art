@@ -1,7 +1,8 @@
-import { menuPages, IMAGE_WIDTH, IMAGE_HEIGHT } from "@/data/menu-pages";
+import { IMAGE_WIDTH, IMAGE_HEIGHT, type MenuPage } from "@/data/menu-pages";
 
 function absolute(url: string) {
   if (typeof window === "undefined") return url;
+  if (/^(https?:|images\/)/.test(url)) return url;
   return new URL(url, window.location.origin).href;
 }
 
