@@ -143,3 +143,8 @@
     color: var(--color-foreground);
   }
 }
+
+@keyframes wa-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
