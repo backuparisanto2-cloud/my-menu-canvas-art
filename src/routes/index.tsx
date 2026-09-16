@@ -81,7 +81,7 @@ function MenuApp() {
         <Menu className="h-5 w-5" />
       </button>
 
-      <main className="mx-auto flex max-w-3xl flex-col gap-3 px-2 py-2 sm:gap-6 sm:px-4 sm:py-6">
+      <main className="mx-auto flex max-w-3xl flex-col gap-[15px] px-0 py-[15px] sm:gap-6 sm:px-4 sm:py-6">
         {menuPages.map((page, i) => (
           <MenuFigure
             key={page.id}
@@ -242,13 +242,13 @@ function MenuFigure({
       id={page.id}
       ref={ref}
       style={{
-        transitionDelay: visible ? `${Math.min(index, 3) * 50}ms` : "0ms",
-        transform: visible ? "none" : "translate3d(0,18px,0) scale(.985)",
+        transitionDelay: visible ? `${Math.min(index, 2) * 35}ms` : "0ms",
+        transform: visible ? "none" : "translate3d(0,26px,0) scale(.99)",
         opacity: visible ? 1 : 0,
         willChange: "transform, opacity",
         contain: "content",
       }}
-      className="relative m-0 scroll-mt-2 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
+      className="relative m-0 scroll-mt-0 transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(.22,.61,.36,1)] sm:scroll-mt-2 motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
     >
       <button
         type="button"
@@ -265,7 +265,7 @@ function MenuFigure({
           loading={priority ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={priority ? "high" : "low"}
-          className="block h-auto w-full rounded-2xl"
+          className="block h-auto w-full rounded-none sm:rounded-2xl"
         />
       </button>
       <button
