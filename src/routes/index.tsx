@@ -13,7 +13,17 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { shareMenuImage } from "@/lib/share-menu";
 import { preloadNow, preloadSequential } from "@/lib/preload-images";
 
+export const menuPagesQuery = queryOptions({
+  queryKey: ["menu-pages"],
+  queryFn: () => getMenuPages(),
+});
+
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(menuPagesQuery),
+  errorComponent: () => (
+    <p className="p-6 text-center text-sm text-[#5a3521]">Menu gagal dimuat. Coba muat ulang.</p>
+  ),
+  notFoundComponent: () => <p className="p-6 text-center text-sm">Halaman tidak ditemukan.</p>,
   head: () => ({
     meta: [
       { title: "Menu Kantin Inyong — Sate Kambing Muda Purwokerto" },
@@ -33,6 +43,7 @@ export const Route = createFileRoute("/")({
 });
 
 function MenuApp() {
+  const { data: menuPages } = useSuspenseQuery(menuPagesQuery);
   const { isFavorite, toggleFavorite, count } = useFavorites();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
@@ -204,7 +215,7 @@ function MenuFigure({
   onToggle,
   onOpen,
 }: {
-  page: (typeof menuPages)[number];
+  page: MenuPage;
   index: number;
   priority: boolean;
   favorite: boolean;
