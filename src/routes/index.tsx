@@ -105,6 +105,7 @@ function MenuApp() {
             favorite={isFavorite(page.id)}
             onToggle={() => toggleFavorite(page.id)}
             onOpen={() => setLightbox(i)}
+            nextUrls={menuPages.slice(i + 1, i + 3).map((p) => p.url)}
           />
         ))}
         <footer className="pb-10 pt-4 text-center text-xs text-[#5a3521]/70">
@@ -214,6 +215,7 @@ function MenuFigure({
   favorite,
   onToggle,
   onOpen,
+  nextUrls,
 }: {
   page: MenuPage;
   index: number;
@@ -221,6 +223,7 @@ function MenuFigure({
   favorite: boolean;
   onToggle: () => void;
   onOpen: () => void;
+  nextUrls: string[];
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(priority);
