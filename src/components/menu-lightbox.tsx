@@ -224,9 +224,9 @@ export function MenuLightbox({
           type="button"
           onClick={() => void shareMenuImage(page)}
           aria-label="Bagikan via WhatsApp"
-          className="rounded-full bg-[#25D366] p-2.5 text-white transition-transform active:scale-90"
+          className="rounded-full bg-[#25D366] p-2.5 text-white transition-transform active:scale-90 animate-wa-bounce motion-reduce:animate-none"
         >
-          <WhatsAppIcon className="h-5 w-5 animate-wa-bounce motion-reduce:animate-none" />
+          <WhatsAppIcon className="h-5 w-5" />
         </button>
         <button
           type="button"

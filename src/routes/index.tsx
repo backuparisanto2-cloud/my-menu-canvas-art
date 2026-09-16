@@ -272,9 +272,9 @@ function MenuFigure({
         type="button"
         onClick={() => void shareMenuImage(page)}
         aria-label={`Bagikan ${page.title} via WhatsApp`}
-        className="absolute right-3 top-[57px] rounded-full bg-[#25D366] p-2.5 text-white shadow-md transition-transform active:scale-90"
+        className="absolute right-3 top-[62px] rounded-full bg-[#25D366] p-2.5 text-white shadow-md transition-transform active:scale-90 animate-wa-bounce motion-reduce:animate-none"
       >
-        <WhatsAppIcon className="h-5 w-5 animate-wa-bounce motion-reduce:animate-none" />
+        <WhatsAppIcon className="h-5 w-5" />
       </button>
       <button
         type="button"
