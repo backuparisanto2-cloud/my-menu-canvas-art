@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUp, Download, Menu, Star, X } from "lucide-react";
+import { ArrowUp, Download, Heart, Menu, X } from "lucide-react";
 
 import { menuPages, IMAGE_WIDTH, IMAGE_HEIGHT } from "@/data/menu-pages";
 import { downloadMenuHtml } from "@/lib/export-menu-html";
@@ -170,7 +170,7 @@ function MenuApp() {
                     <span className="block text-xs text-[#5a3521]/65">{page.subtitle}</span>
                   </span>
                   {isFavorite(page.id) && (
-                    <Star className="mt-0.5 h-4 w-4 shrink-0 fill-[#e8a021] text-[#e8a021]" />
+                    <Heart className="mt-0.5 h-4 w-4 shrink-0 fill-[#e03131] text-[#e03131]" />
                   )}
                 </button>
               ))}
@@ -242,13 +242,13 @@ function MenuFigure({
       id={page.id}
       ref={ref}
       style={{
-        transitionDelay: visible ? `${Math.min(index, 2) * 35}ms` : "0ms",
-        transform: visible ? "none" : "translate3d(0,26px,0) scale(.99)",
+        transitionDelay: visible ? `${Math.min(index, 3) * 60}ms` : "0ms",
+        transform: visible ? "none" : "translate3d(0,44px,0) scale(.965)",
         opacity: visible ? 1 : 0,
         willChange: "transform, opacity",
         contain: "content",
       }}
-      className="relative m-0 scroll-mt-0 transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(.22,.61,.36,1)] sm:scroll-mt-2 motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
+      className="relative m-0 scroll-mt-0 transition-[opacity,transform] duration-[620ms] ease-[cubic-bezier(.16,.84,.3,1)] sm:scroll-mt-2 motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
     >
       <button
         type="button"
@@ -283,8 +283,8 @@ function MenuFigure({
         aria-label={favorite ? `Hapus favorit ${page.title}` : `Tandai favorit ${page.title}`}
         className="absolute right-3 top-3 rounded-full bg-black/35 p-2.5 backdrop-blur transition-transform active:scale-90"
       >
-        <Star
-          className={`h-5 w-5 ${favorite ? "fill-[#e8a021] text-[#e8a021]" : "text-white"}`}
+        <Heart
+          className={`h-5 w-5 transition-transform duration-200 ${favorite ? "fill-[#e03131] text-[#e03131] scale-110" : "text-white"}`}
         />
       </button>
     </figure>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Star, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 
 import { IMAGE_HEIGHT, IMAGE_WIDTH, type MenuPage } from "@/data/menu-pages";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -235,7 +235,7 @@ export function MenuLightbox({
           aria-label={fav ? "Hapus favorit" : "Tandai favorit"}
           className="rounded-full bg-white/10 p-2.5 transition-transform active:scale-90"
         >
-          <Star className={`h-5 w-5 ${fav ? "fill-[#e8a021] text-[#e8a021]" : "text-white"}`} />
+          <Heart className={`h-5 w-5 transition-transform duration-200 ${fav ? "fill-[#e03131] text-[#e03131] scale-110" : "text-white"}`} />
         </button>
         </div>
       </div>
