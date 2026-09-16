@@ -1,15 +1,16 @@
-import { menuPages, IMAGE_WIDTH, IMAGE_HEIGHT } from "@/data/menu-pages";
+import { IMAGE_WIDTH, IMAGE_HEIGHT, type MenuPage } from "@/data/menu-pages";
 
 function absolute(url: string) {
   if (typeof window === "undefined") return url;
+  if (/^(https?:|images\/)/.test(url)) return url;
   return new URL(url, window.location.origin).href;
 }
 
 const WA_SVG =
   '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.92-4.45 9.92-9.93C21.96 6.45 17.5 2 12.04 2Zm0 18.02a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.17 8.17 0 0 1-1.25-4.35c0-4.54 3.7-8.23 8.24-8.23a8.24 8.24 0 0 1 0 16.44Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.09-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.04s.87 2.37 1 2.53c.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29Z"/></svg>';
 
-export function buildMenuHtml() {
-  const items = menuPages
+export function buildMenuHtml(pages: MenuPage[]) {
+  const items = pages
     .map(
       (p, i) => `    <figure id="${p.id}" data-i="${i}" style="transition-delay:${Math.min(i, 3) * 50}ms">
       <img src="${absolute(p.url)}" alt="${p.title} — ${p.subtitle}" width="${IMAGE_WIDTH}" height="${IMAGE_HEIGHT}" ${i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'} />
@@ -20,7 +21,7 @@ export function buildMenuHtml() {
     .join("\n");
 
   const data = JSON.stringify(
-    menuPages.map((p) => ({
+    pages.map((p) => ({
       id: p.id,
       url: absolute(p.url),
       title: p.title,
@@ -215,8 +216,8 @@ ${items}
 </html>`;
 }
 
-export function downloadMenuHtml() {
-  const blob = new Blob([buildMenuHtml()], { type: "text/html;charset=utf-8" });
+export function downloadMenuHtml(pages: MenuPage[]) {
+  const blob = new Blob([buildMenuHtml(pages)], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

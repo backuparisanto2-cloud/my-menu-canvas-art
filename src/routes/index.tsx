@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUp, Download, Heart, Menu, X } from "lucide-react";
 
-import { menuPages, IMAGE_WIDTH, IMAGE_HEIGHT } from "@/data/menu-pages";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+
+import { IMAGE_WIDTH, IMAGE_HEIGHT, type MenuPage } from "@/data/menu-pages";
+import { getMenuPages } from "@/lib/menu.functions";
 import { downloadMenuHtml } from "@/lib/export-menu-html";
 import { useFavorites } from "@/hooks/use-favorites";
 import { MenuLightbox } from "@/components/menu-lightbox";
@@ -10,7 +13,17 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { shareMenuImage } from "@/lib/share-menu";
 import { preloadNow, preloadSequential } from "@/lib/preload-images";
 
+export const menuPagesQuery = queryOptions({
+  queryKey: ["menu-pages"],
+  queryFn: () => getMenuPages(),
+});
+
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(menuPagesQuery),
+  errorComponent: () => (
+    <p className="p-6 text-center text-sm text-[#5a3521]">Menu gagal dimuat. Coba muat ulang.</p>
+  ),
+  notFoundComponent: () => <p className="p-6 text-center text-sm">Halaman tidak ditemukan.</p>,
   head: () => ({
     meta: [
       { title: "Menu Kantin Inyong — Sate Kambing Muda Purwokerto" },
@@ -30,6 +43,7 @@ export const Route = createFileRoute("/")({
 });
 
 function MenuApp() {
+  const { data: menuPages } = useSuspenseQuery(menuPagesQuery);
   const { isFavorite, toggleFavorite, count } = useFavorites();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
@@ -91,6 +105,7 @@ function MenuApp() {
             favorite={isFavorite(page.id)}
             onToggle={() => toggleFavorite(page.id)}
             onOpen={() => setLightbox(i)}
+            nextUrls={menuPages.slice(i + 1, i + 3).map((p) => p.url)}
           />
         ))}
         <footer className="pb-10 pt-4 text-center text-xs text-[#5a3521]/70">
@@ -140,7 +155,7 @@ function MenuApp() {
               </button>
               <button
                 type="button"
-                onClick={downloadMenuHtml}
+                onClick={() => downloadMenuHtml(menuPages)}
                 className="flex items-center gap-1 rounded-full bg-[#5a3521] px-3 py-2 text-xs font-semibold text-[#faf5ea]"
               >
                 <Download className="h-4 w-4" /> HTML
@@ -200,13 +215,15 @@ function MenuFigure({
   favorite,
   onToggle,
   onOpen,
+  nextUrls,
 }: {
-  page: (typeof menuPages)[number];
+  page: MenuPage;
   index: number;
   priority: boolean;
   favorite: boolean;
   onToggle: () => void;
   onOpen: () => void;
+  nextUrls: string[];
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(priority);
@@ -232,10 +249,8 @@ function MenuFigure({
   // Begitu satu halaman muncul, dua halaman berikutnya disiapkan.
   useEffect(() => {
     if (!visible) return;
-    preloadNow(
-      menuPages.slice(index + 1, index + 3).map((p) => p.url),
-    );
-  }, [visible, index]);
+    preloadNow(nextUrls);
+  }, [visible, nextUrls]);
 
   return (
     <figure
