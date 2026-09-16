@@ -242,13 +242,13 @@ function MenuFigure({
       id={page.id}
       ref={ref}
       style={{
-        transitionDelay: visible ? `${Math.min(index, 3) * 60}ms` : "0ms",
-        transform: visible ? "none" : "translate3d(0,44px,0) scale(.965)",
+        transitionDelay: visible ? `${Math.min(index, 4) * 70}ms` : "0ms",
+        transform: visible ? "none" : "translate3d(0,52px,0) scale(.955)",
         opacity: visible ? 1 : 0,
         willChange: "transform, opacity",
         contain: "content",
       }}
-      className="relative m-0 scroll-mt-0 transition-[opacity,transform] duration-[620ms] ease-[cubic-bezier(.16,.84,.3,1)] sm:scroll-mt-2 motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
+      className="relative m-0 scroll-mt-0 transition-[opacity,transform] duration-[540ms] ease-[cubic-bezier(.2,.7,.15,1.03)] sm:scroll-mt-2 motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:transition-none"
     >
       <button
         type="button"
