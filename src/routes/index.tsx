@@ -154,7 +154,7 @@ function MenuApp() {
               </button>
               <button
                 type="button"
-                onClick={downloadMenuHtml}
+                onClick={() => downloadMenuHtml(menuPages)}
                 className="flex items-center gap-1 rounded-full bg-[#5a3521] px-3 py-2 text-xs font-semibold text-[#faf5ea]"
               >
                 <Download className="h-4 w-4" /> HTML
@@ -246,10 +246,8 @@ function MenuFigure({
   // Begitu satu halaman muncul, dua halaman berikutnya disiapkan.
   useEffect(() => {
     if (!visible) return;
-    preloadNow(
-      menuPages.slice(index + 1, index + 3).map((p) => p.url),
-    );
-  }, [visible, index]);
+    preloadNow(nextUrls);
+  }, [visible, nextUrls]);
 
   return (
     <figure
