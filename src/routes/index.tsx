@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUp, Download, Heart, Menu, X } from "lucide-react";
 
-import { menuPages, IMAGE_WIDTH, IMAGE_HEIGHT } from "@/data/menu-pages";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+
+import { IMAGE_WIDTH, IMAGE_HEIGHT, type MenuPage } from "@/data/menu-pages";
+import { getMenuPages } from "@/lib/menu.functions";
 import { downloadMenuHtml } from "@/lib/export-menu-html";
 import { useFavorites } from "@/hooks/use-favorites";
 import { MenuLightbox } from "@/components/menu-lightbox";
